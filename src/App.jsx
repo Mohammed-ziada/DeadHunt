@@ -1,12 +1,31 @@
+ 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import './App.css'
+import MainLayout from './layouts/MainLayout'
+import Home from './pages/Home'
+import Cart from './pages/cart'
+
+
+
+let routers = createBrowserRouter([
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: '/cart', element: <Cart /> }
+    ]
+  }
+])
 
 function App() {
 
 
   return (
     <>
-      <h1>Welcome</h1>
+
+      <RouterProvider router={routers} />
+
     </>
   )
 }
