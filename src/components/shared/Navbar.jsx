@@ -8,51 +8,65 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import SearchBox from './SearchBox';
 
 export default function Navbar() {
-    return (
-        <>
+  return (
+    <>
+      <Root className="flex justify-between items-center py-4 px-8 bg-white border-b border-gray-200">
+        {/* Left side (Logo) */}
+        <div className="flex items-center">
+          <img src={logo} alt="Logo" className="w-24" />
+        </div>
 
-            <Root className="flex justify-between items-center py-4 px-8 bg-white border-b border-gray-200">
-                {/* Left side (Logo) */}
-                <div className="flex items-center">
-                    <img src={logo} alt="Logo" className="w-24" />
-                </div>
+        {/* Center Menu */}
+        <List className="flex space-x-8">
+          <Item className="list-none">
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Link
+                  href="/"
+                  className="text-subMain font-medium hover:text-red-500"
+                >
+                  All Categories
+                </Link>
+              </HoverCardTrigger>
+              <HoverCardContent className="bg-white shadow-md p-4">
+                <div>Dropdown Content Here</div>
+              </HoverCardContent>
+            </HoverCard>
+          </Item>
+          <Item className="list-none">
+            <Link href="/category" className="text-gray-700 hover:text-red-500">
+              Category
+            </Link>
+          </Item>
+          <Item className="list-none">
+            <Link href="/vehicles" className="text-gray-700 hover:text-red-500">
+              Vehicles
+            </Link>
+          </Item>
+          <Item className="list-none">
+            <Link href="/fashion" className="text-gray-700 hover:text-red-500">
+              Fashion & Beauty
+            </Link>
+          </Item>
+          <Item className="list-none">
+            <Link href="/jobs" className="text-gray-700 hover:text-red-500">
+              Jobs
+            </Link>
+          </Item>
+        </List>
 
-                {/* Center Menu */}
-                <List className="flex space-x-8">
-                    <Item className="list-none">
-                        <HoverCard>
-                            <HoverCardTrigger asChild>
-                                <Link href="/" className="text-subMain font-medium hover:text-red-500">All Categories</Link>
-                            </HoverCardTrigger>
-                            <HoverCardContent className="bg-white shadow-md p-4">
-                                <div>Dropdown Content Here</div>
-                            </HoverCardContent>
-                        </HoverCard>
-                    </Item>
-                    <Item className="list-none">
-                        <Link href="/electronics" className="text-gray-700 hover:text-red-500">Electronics</Link>
-                    </Item>
-                    <Item className="list-none">
-                        <Link href="/vehicles" className="text-gray-700 hover:text-red-500">Vehicles</Link>
-                    </Item>
-                    <Item className="list-none">
-                        <Link href="/fashion" className="text-gray-700 hover:text-red-500">Fashion & Beauty</Link>
-                    </Item>
-                    <Item className="list-none">
-                        <Link href="/jobs" className="text-gray-700 hover:text-red-500">Jobs</Link>
-                    </Item>
-                </List>
+        {/* Right side (Icons) */}
+        <div className="flex items-center space-x-4">
+          <Button>
+            <FaMoon className="text-gray-500 hover:text-red-500 cursor-pointer" />
+          </Button>
 
-                {/* Right side (Icons) */}
-                <div className="flex items-center space-x-4">
-                    <Button><FaMoon className="text-gray-500 hover:text-red-500 cursor-pointer" /></Button>
-
-                    <FaShoppingCart className="text-gray-500 hover:text-red-500 cursor-pointer" />
-                    <Dialog.Root>
-                        <Dialog.Title> </Dialog.Title>
-                        <Dialog.Trigger className='bg-white text-main'>
-                            <Button> Login</Button>
-                        </Dialog.Trigger>
+          <FaShoppingCart className="text-gray-500 hover:text-red-500 cursor-pointer" />
+          <Dialog.Root>
+            <Dialog.Title> </Dialog.Title>
+            <Dialog.Trigger className="bg-white text-main">
+              <Button> Login</Button>
+            </Dialog.Trigger>
 
                         <Dialog.Content maxWidth="450px">
                             <Regestraion />
