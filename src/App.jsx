@@ -1,33 +1,11 @@
- 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-import MainLayout from './layouts/MainLayout'
-import Home from './pages/Home'
-import Cart from './pages/cart'
-
-
-
-let routers = createBrowserRouter([
-  {
-    path: '/',
-    element: <MainLayout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: '/cart', element: <Cart /> }
-    ]
-  }
-])
-
+import { RouterProvider } from "react-router-dom";
+import routes from "./Routes/Routes";
 function App() {
-
-
   return (
     <>
-
-      <RouterProvider router={routers} />
-
+      <RouterProvider router={routes} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
