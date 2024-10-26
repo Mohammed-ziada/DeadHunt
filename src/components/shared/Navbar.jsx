@@ -5,6 +5,7 @@ import { Button, Dialog } from '@radix-ui/themes';
 import logo from '../../assets/images/Logo.svg'
 import Regestraion from '../../pages/Regestraion';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import SearchBox from './SearchBox';
 
 export default function Navbar() {
     return (
@@ -70,7 +71,9 @@ export default function Navbar() {
                     </Dialog.Root>
 
                 </div>
+
             </Root>
+            <SearchBox  />
         </>
     )
 }
