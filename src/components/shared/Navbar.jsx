@@ -1,11 +1,15 @@
-import { Root, List, Item, Link } from '@radix-ui/react-navigation-menu';
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@radix-ui/react-hover-card'; // Correct HoverCard imports
-import { FaMoon, FaShoppingCart } from 'react-icons/fa';
-import { Button, Dialog } from '@radix-ui/themes';
-import logo from '../../assets/images/Logo.svg'
-import Regestraion from '../../pages/Regestraion';
-import { Cross2Icon } from '@radix-ui/react-icons';
-import SearchBox from './SearchBox';
+import { Root, List, Item, Link } from "@radix-ui/react-navigation-menu";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@radix-ui/react-hover-card"; // Correct HoverCard imports
+import { FaMoon, FaShoppingCart } from "react-icons/fa";
+import { Button, Dialog } from "@radix-ui/themes";
+import logo from "../../assets/images/Logo.svg";
+import Regestraion from "../../pages/Regestraion";
+import { Cross2Icon } from "@radix-ui/react-icons";
+import SearchBox from "./SearchBox";
 
 export default function Navbar() {
   return (
@@ -68,26 +72,22 @@ export default function Navbar() {
               <Button> Login</Button>
             </Dialog.Trigger>
 
-                        <Dialog.Content maxWidth="450px">
-                            <Regestraion />
-                            <Dialog.Close asChild>
-                                <button
-                                    className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
-                                    aria-label="Close"
-                                >
-                                    <Cross2Icon />
-                                </button>
-                            </Dialog.Close>
-                        </Dialog.Content>
-                        <Dialog.Description  >
-
-                        </Dialog.Description>
-                    </Dialog.Root>
-
-                </div>
-
-            </Root>
-            <SearchBox  />
-        </>
-    )
+            <Dialog.Content maxWidth="450px">
+              <Regestraion />
+              <Dialog.Close asChild>
+                <button
+                  className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
+                  aria-label="Close"
+                >
+                  <Cross2Icon />
+                </button>
+              </Dialog.Close>
+            </Dialog.Content>
+            <Dialog.Description></Dialog.Description>
+          </Dialog.Root>
+        </div>
+      </Root>
+      <SearchBox />
+    </>
+  );
 }
