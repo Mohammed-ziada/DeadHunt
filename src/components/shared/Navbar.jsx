@@ -1,93 +1,133 @@
-import { Root, List, Item, Link } from '@radix-ui/react-navigation-menu';
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@radix-ui/react-hover-card'; // Correct HoverCard imports
-import { FaMoon, FaShoppingCart } from 'react-icons/fa';
-import { Button, Dialog } from '@radix-ui/themes';
-import logo from '../../assets/images/Logo.svg'
-import Regestraion from '../../pages/Regestraion';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { useState } from 'react';
+import logo from '../../assets/images/Logo.svg';
 import SearchBox from './SearchBox';
+import { Button, Col, Menu, Row, Modal, Drawer } from 'antd';
+import { MenuOutlined, MoonOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import Registration from './../../pages/Regestraion';
+
 
 export default function Navbar() {
+  const items = [
+    { label: 'All Categories', key: 'categories' },
+    { label: 'Electronics', key: 'electronics' },
+    { label: 'Vehicles', key: 'vehicles' },
+    { label: 'Fashion & Beauty', key: 'fashion' },
+    { label: 'Hobbies', key: 'hobbies' },
+    { label: 'Jobs', key: 'jobs' },
+    { label: 'Properties', key: 'properties' },
+    { label: 'Furniture', key: 'furniture' },
+    { label: 'Deals', key: 'deals' },
+    { label: 'Marketplace', key: 'marketplace' },
+  ];
+
+  const [current, setCurrent] = useState('categories');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+
+  const onClick = (e) => {
+    setCurrent(e.key);
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const showDrawer = () => {
+    setIsDrawerVisible(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerVisible(false);
+  };
+
   return (
-    <>
-      <Root className="flex justify-between items-center py-4 px-8 bg-white border-b border-gray-200">
-        {/* Left side (Logo) */}
-        <div className="flex items-center">
-          <img src={logo} alt="Logo" className="w-24" />
-        </div>
+    <div className="bg-white shadow-sm">
+      <Row align="middle" justify="space-between" className="py-2 px-4 sm:px-6">
 
-        {/* Center Menu */}
-        <List className="flex space-x-8">
-          <Item className="list-none">
-            <HoverCard>
-              <HoverCardTrigger asChild>
-                <Link
-                  href="/"
-                  className="text-subMain font-medium hover:text-red-500"
-                >
-                  All Categories
-                </Link>
-              </HoverCardTrigger>
-              <HoverCardContent className="bg-white shadow-md p-4">
-                <div>Dropdown Content Here</div>
-              </HoverCardContent>
-            </HoverCard>
-          </Item>
-          <Item className="list-none">
-            <Link href="/category" className="text-gray-700 hover:text-red-500">
-              Category
-            </Link>
-          </Item>
-          <Item className="list-none">
-            <Link href="/vehicles" className="text-gray-700 hover:text-red-500">
-              Vehicles
-            </Link>
-          </Item>
-          <Item className="list-none">
-            <Link href="/fashion" className="text-gray-700 hover:text-red-500">
-              Fashion & Beauty
-            </Link>
-          </Item>
-          <Item className="list-none">
-            <Link href="/jobs" className="text-gray-700 hover:text-red-500">
-              Jobs
-            </Link>
-          </Item>
-        </List>
+        {/* Left - Logo */}
+        <Col xs={6} sm={4} md={3} className="flex items-center">
+          <img src={logo} alt="Logo" className="h-5" />
+        </Col>
 
-        {/* Right side (Icons) */}
-        <div className="flex items-center space-x-4">
-          <Button>
-            <FaMoon className="text-gray-500 hover:text-red-500 cursor-pointer" />
+        {/* Center - Menu Items */}
+        <Col xs={0} sm={16} md={14} className="hidden sm:flex justify-center">
+          <Menu
+            onClick={onClick}
+            selectedKeys={[current]}
+            mode="horizontal"
+            items={items.map(item => ({
+              ...item,
+              label: <span className="text-sm text-subMain">{item.label}</span>,
+            }))}
+            className="border-none w-full justify-center"
+          />
+        </Col>
+
+        {/* Right - Icons and Login */}
+        <Col xs={6} sm={4} md={3} className="flex items-center justify-end space-x-4">
+          <MoonOutlined className="text-gray-500 text-lg hidden sm:block" />
+          <ShoppingCartOutlined className="text-gray-500 text-lg hidden sm:block" />
+          <Button
+            type="link"
+            className="text-red-600 text-sm hidden sm:block"
+            onClick={showModal}
+          >
+            Log in
           </Button>
 
-          <FaShoppingCart className="text-gray-500 hover:text-red-500 cursor-pointer" />
-          <Dialog.Root>
-            <Dialog.Title> </Dialog.Title>
-            <Dialog.Trigger className="bg-white text-main">
-              <Button> Login</Button>
-            </Dialog.Trigger>
+          {/* Mobile Menu Icon */}
+          <Button
+            type="text"
+            icon={<MenuOutlined />}
+            className="block sm:hidden text-lg"
+            onClick={showDrawer}
+          />
+        </Col>
+      </Row>
 
-                        <Dialog.Content maxWidth="450px">
-                            <Regestraion />
-                            <Dialog.Close asChild>
-                                <button
-                                    className="absolute right-2.5 top-2.5 inline-flex size-[25px] appearance-none items-center justify-center rounded-full text-violet11 hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 focus:outline-none"
-                                    aria-label="Close"
-                                >
-                                    <Cross2Icon />
-                                </button>
-                            </Dialog.Close>
-                        </Dialog.Content>
-                        <Dialog.Description  >
+      {/* Drawer for Mobile Menu */}
+      <Drawer
+        title="Menu"
+        placement="right"
+        onClose={closeDrawer}
+        open={isDrawerVisible}
+        width={250}
+      >
+        <Menu
+          onClick={onClick}
+          selectedKeys={[current]}
+          mode="vertical"
+          items={items.map(item => ({
+            ...item,
+            label: <span className="text-sm">{item.label}</span>,
+          }))}
+        />
+        <div className="mt-4 flex justify-between items-center">
+          <MoonOutlined className="text-gray-500 text-lg" />
+          <ShoppingCartOutlined className="text-gray-500 text-lg" />
+          <Button type="link" className="text-red-600 text-sm" onClick={showModal}>
+            Log in
+          </Button>
+        </div>
+      </Drawer>
 
-                        </Dialog.Description>
-                    </Dialog.Root>
+      {/* Login Modal */}
+      <Modal
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        centered
+       
+      >
+        <Registration />
+      </Modal>
 
-                </div>
-
-            </Root>
-            <SearchBox  />
-        </>
-    )
+      {/* Search Box below Navbar */}
+      <SearchBox />
+    </div>
+  );
 }
