@@ -1,3 +1,4 @@
+import { HeartIcon } from "@radix-ui/react-icons";
 import propTypes from "prop-types";
 // import products from "../../assets/images/Product.jpg";
 
@@ -8,7 +9,7 @@ export default function ProductCart({ product }) {
     <>
       <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
         <div className="relative">
-          <div className="bg-pink-100 p-4">
+          <div className="box-border border  p-4">
             <img
               src={thumbnail}
               alt="Nike Air Force 1 Shadow sneakers"
@@ -16,7 +17,7 @@ export default function ProductCart({ product }) {
             />
           </div>
           <button className="absolute bottom-2 right-2 p-2 bg-white rounded-full shadow-md">
-            {/* //  <Heart className="w-5 h-5 text-gray-600" /> */}
+            <HeartIcon className="w-5 h-5 text-gray-600" />
           </button>
         </div>
         <div className="px-4 py-4">

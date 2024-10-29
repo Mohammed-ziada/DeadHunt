@@ -28,7 +28,7 @@ export default function Home() {
         <Flex gap="3" wrap="wrap" justify="between">
           {data.length > 0
             ? data.map((product) => {
-                console.log(product);
+                // console.log(product);
 
                 return (
                   <Box flex="1" key={product.id}>
@@ -37,15 +37,6 @@ export default function Home() {
                 );
               })
             : "Loading ...."}
-          {/* <Box flex="1">
-                        <ProductCart />
-                    </Box>
-                    <Box flex="1">
-                        <ProductCart />
-                    </Box>
-                    <Box flex="1">
-                        <ProductCart />
-                    </Box> */}
         </Flex>
       </Container>
     </>
