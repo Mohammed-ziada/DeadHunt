@@ -4,6 +4,7 @@ import SearchBox from './SearchBox';
 import { Button, Col, Menu, Row, Modal, Drawer } from 'antd';
 import { MenuOutlined, MoonOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import Registration from './../../pages/Regestraion';
+import { Link } from 'react-router-dom';
 
 
 export default function Navbar() {
@@ -20,7 +21,7 @@ export default function Navbar() {
     { label: 'Marketplace', key: 'marketplace' },
   ];
 
-  const [current, setCurrent] = useState('categories');
+  const [current, setCurrent] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
@@ -70,7 +71,11 @@ export default function Navbar() {
         {/* Right - Icons and Login */}
         <Col xs={6} sm={4} md={3} className="flex items-center justify-end space-x-4">
           <MoonOutlined className="text-gray-500 text-lg hidden sm:block" />
-          <ShoppingCartOutlined className="text-gray-500 text-lg hidden sm:block" />
+
+          <Link to='cart'>
+            <ShoppingCartOutlined className="text-gray-500 text-lg hidden sm:block hover:text-black duration-300" />
+          </Link>
+
           <Button
             type="link"
             className="text-red-600 text-sm hidden sm:block"
@@ -108,7 +113,13 @@ export default function Navbar() {
         />
         <div className="mt-4 flex justify-between items-center">
           <MoonOutlined className="text-gray-500 text-lg" />
-          <ShoppingCartOutlined className="text-gray-500 text-lg" />
+
+          <Link to='cart'>
+            <ShoppingCartOutlined className="text-gray-500 text-lg   sm:block" />
+          </Link>
+
+
+
           <Button type="link" className="text-red-600 text-sm" onClick={showModal}>
             Log in
           </Button>
@@ -121,7 +132,7 @@ export default function Navbar() {
         onCancel={handleCancel}
         footer={null}
         centered
-       
+
       >
         <Registration />
       </Modal>

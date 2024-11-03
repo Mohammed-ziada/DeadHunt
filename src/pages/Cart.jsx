@@ -8,6 +8,7 @@ import {
   Divider,
 } from 'antd';
 import CartProduct from '../components/CartProduct/CartProduct';
+import { Link } from 'react-router-dom';
 
 export default function Cart() {
   const { Title, Text } = Typography;
@@ -125,12 +126,20 @@ export default function Cart() {
 
                       {/* Checkout Button */}
                       <Col span={24} className="mt-4">
-                        <Button
-                          size="large"
-                          className="w-full bg-main text-white hover:bg-slate-900 transition-colors duration-300"
+
+                        <Link to='/checkOut'
+
                         >
-                          Checkout
-                        </Button>
+                          <Button
+                            size="large"
+                            className="w-full  bg-main text-white hover:bg-slate-900 transition-colors duration-300"
+                          >
+                            Checkout
+                          </Button>
+
+
+
+                        </Link >
                       </Col>
                     </Row>
                   </Col>

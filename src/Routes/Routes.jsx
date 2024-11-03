@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
-import Home from "../pages/Home";
-import Cart from "../pages/Cart";
-import Category from "../pages/Category";
+ 
 
+
+
+import { Cart, CheckOut, Category, Home } from "./routes_Component.routes";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -12,6 +13,7 @@ const routes = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "cart", element: <Cart /> },
       { path: "category", element: <Category /> },
+      { path: "checkOut", element: <CheckOut /> },
     ],
   },
 ]);

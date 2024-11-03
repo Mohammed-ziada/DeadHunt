@@ -41,8 +41,8 @@ export default function Category() {
         <div className=" col-span-9 flex flex-wrap gap-3 justify-between p-6">
           {filteredData.length > 0
             ? filteredData.map((product) => (
-                <ProductCart key={product.id} product={product} />
-              ))
+              <ProductCart key={product.id} product={product} />
+            ))
             : "Loading ...."}
         </div>
       </div>
