@@ -1,6 +1,6 @@
 import { Box, Container, Flex, Section } from "@radix-ui/themes";
 import MainSlider from "../components/MainSlider/MainSlider";
-import ProductCart from "../components/ProductCard/ProductCart";
+import ProductCard from "../components/ProductCard/ProductCard";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -28,14 +28,14 @@ export default function Home() {
         <Flex gap="3" wrap="wrap" justify="between">
           {data.length > 0
             ? data.map((product) => {
-              // console.log(product);
+                // console.log(product);
 
-              return (
-                <Box flex="1" key={product.id}>
-                  <ProductCart product={product} />
-                </Box>
-              );
-            })
+                return (
+                  <Box flex="1" key={product.id}>
+                    <ProductCard product={product} />
+                  </Box>
+                );
+              })
             : "Loading ...."}
         </Flex>
       </Container>

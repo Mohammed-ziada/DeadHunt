@@ -1,29 +1,30 @@
 import { HeartIcon } from "@radix-ui/react-icons";
 import propTypes from "prop-types";
 // import products from "../../assets/images/Product.jpg";
+import CButton from "../shared/CustomButton";
 
-export default function ProductCart({ product }) {
+export default function ProductCard({ product }) {
   const { title, price, thumbnail, category } = product;
   // console.log(product);
   return (
     <>
-      <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
-        <div className="relative">
-          <div className="box-border border  p-4">
+      <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white col-span-3 flex flex-col justify-between">
+        <div className="relative ">
+          <div className="box-border border flex justify-center">
             <img
               src={thumbnail}
               alt="Nike Air Force 1 Shadow sneakers"
-              className="w-full h-60 object-cover"
+              className=" h-60 object-cover "
             />
           </div>
           <button className="absolute bottom-2 right-2 p-2 bg-white rounded-full shadow-md">
             <HeartIcon className="w-5 h-5 text-gray-600" />
           </button>
         </div>
-        <div className="px-4 py-4">
-          <div className="text-sm text-gray-500 mb-2">{category}</div>
-          <h2 className="font-bold text-xl mb-2 text-gray-800">{title}</h2>
-          <p className="text-3xl font-bold text-pink-500 mb-4">
+        <div className="px-4 py-4 flex flex-col gap-2">
+          <div className="text-sm text-gray-500 ">{category}</div>
+          <h2 className="font-bold text-xl  text-gray-800">{title}</h2>
+          <p className="text-3xl font-bold text-pink-500 ">
             {price} <span className="text-sm font-normal">EGP</span>
           </p>
           <div className="flex items-center text-sm text-blue-600">
@@ -31,11 +32,14 @@ export default function ProductCart({ product }) {
             <span className="font-medium">Fast Shipping</span>
             <span className="ml-1 text-gray-500">Get it by 11 sep</span>
           </div>
+          <div className="cartbtn">
+            <CButton clasName="">Add To Cart</CButton>
+          </div>
         </div>
       </div>
     </>
   );
 }
-ProductCart.propTypes = {
+ProductCard.propTypes = {
   product: propTypes.object.isRequired,
 };

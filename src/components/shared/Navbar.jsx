@@ -1,27 +1,31 @@
-import { useState } from 'react';
-import logo from '../../assets/images/Logo.svg';
-import SearchBox from './SearchBox';
-import { Button, Col, Menu, Row, Modal, Drawer } from 'antd';
-import { MenuOutlined, MoonOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import Registration from './../../pages/Regestraion';
-import { Link } from 'react-router-dom';
-
+import { useState } from "react";
+import logo from "../../assets/images/Logo.svg";
+import SearchBox from "./SearchBox";
+import { Button, Col, Menu, Row, Modal, Drawer } from "antd";
+import {
+  MenuOutlined,
+  MoonOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
+import Registration from "./../../pages/Regestraion";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const items = [
-    { label: 'All Categories', key: 'categories' },
-    { label: 'Electronics', key: 'electronics' },
-    { label: 'Vehicles', key: 'vehicles' },
-    { label: 'Fashion & Beauty', key: 'fashion' },
-    { label: 'Hobbies', key: 'hobbies' },
-    { label: 'Jobs', key: 'jobs' },
-    { label: 'Properties', key: 'properties' },
-    { label: 'Furniture', key: 'furniture' },
-    { label: 'Deals', key: 'deals' },
-    { label: 'Marketplace', key: 'marketplace' },
+    { label: "Home", key: "/" },
+    { label: "All Categories", key: "category" },
+    { label: "Electronics", key: "electronics" },
+    { label: "Vehicles", key: "vehicles" },
+    { label: "Fashion & Beauty", key: "fashion" },
+    { label: "Hobbies", key: "hobbies" },
+    { label: "Jobs", key: "jobs" },
+    { label: "Properties", key: "properties" },
+    { label: "Furniture", key: "furniture" },
+    { label: "Deals", key: "deals" },
+    { label: "Marketplace", key: "marketplace" },
   ];
 
-  const [current, setCurrent] = useState('');
+  const [current, setCurrent] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
@@ -48,7 +52,6 @@ export default function Navbar() {
   return (
     <div className="bg-white shadow-sm">
       <Row align="middle" justify="space-between" className="py-2 px-4 sm:px-6">
-
         {/* Left - Logo */}
         <Col xs={6} sm={4} md={3} className="flex items-center">
           <img src={logo} alt="Logo" className="h-5" />
@@ -60,19 +63,28 @@ export default function Navbar() {
             onClick={onClick}
             selectedKeys={[current]}
             mode="horizontal"
-            items={items.map(item => ({
+            items={items.map((item) => ({
               ...item,
-              label: <span className="text-sm text-subMain">{item.label}</span>,
+              label: (
+                <Link to={item.key} className="text-sm text-main">
+                  {item.label}
+                </Link>
+              ),
             }))}
             className="border-none w-full justify-center"
           />
         </Col>
 
         {/* Right - Icons and Login */}
-        <Col xs={6} sm={4} md={3} className="flex items-center justify-end space-x-4">
+        <Col
+          xs={6}
+          sm={4}
+          md={3}
+          className="flex items-center justify-end space-x-4"
+        >
           <MoonOutlined className="text-gray-500 text-lg hidden sm:block" />
 
-          <Link to='cart'>
+          <Link to="cart">
             <ShoppingCartOutlined className="text-gray-500 text-lg hidden sm:block hover:text-black duration-300" />
           </Link>
 
@@ -106,7 +118,7 @@ export default function Navbar() {
           onClick={onClick}
           selectedKeys={[current]}
           mode="vertical"
-          items={items.map(item => ({
+          items={items.map((item) => ({
             ...item,
             label: <span className="text-sm">{item.label}</span>,
           }))}
@@ -114,13 +126,15 @@ export default function Navbar() {
         <div className="mt-4 flex justify-between items-center">
           <MoonOutlined className="text-gray-500 text-lg" />
 
-          <Link to='cart'>
+          <Link to="cart">
             <ShoppingCartOutlined className="text-gray-500 text-lg   sm:block" />
           </Link>
 
-
-
-          <Button type="link" className="text-red-600 text-sm" onClick={showModal}>
+          <Button
+            type="link"
+            className="text-red-600 text-sm"
+            onClick={showModal}
+          >
             Log in
           </Button>
         </div>
@@ -132,7 +146,6 @@ export default function Navbar() {
         onCancel={handleCancel}
         footer={null}
         centered
-
       >
         <Registration />
       </Modal>
