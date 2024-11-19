@@ -29,8 +29,21 @@ export default function SearchBox() {
   console.log("< From Search Bar > Results -> ", results);
   return (
     <>
+      <style>
+        {`
+          .custom-search-button .ant-input-search-button {
+            background-color: #e54666 !important;
+            border-color: #e54666 !important;
+          }
+
+          .custom-search-button .ant-input-search-button:hover {
+            background-color: darkred !important;
+            border-color: darkred !important;
+          }
+        `}
+      </style>
       <Search
-        className="p-4"
+        className="p-4 custom-search-button"
         placeholder="Input search text"
         onSearch={handleSearch}
         enterButton

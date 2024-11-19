@@ -8,7 +8,7 @@ export default function ProductCard({ product }) {
   // console.log(product);
   return (
     <>
-      <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white col-span-3 flex flex-col justify-between">
+      <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex flex-col justify-between">
         <div className="relative ">
           <div className="box-border border flex justify-center">
             <img

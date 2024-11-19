@@ -9,9 +9,7 @@ import PropTypes from "prop-types";
  */
 
 export default function CButton({ onClick, children, clasName = "", ...rest }) {
-  // دمج الأنماط الافتراضية مع الأنماط التي يمررها المستخدم
-  const defaultClasses =
-    "bg-main text-white border p-2 rounded-lg hover:bg-white hover:text-main hover:border-red-500 hover:shadow-md transition duration-100";
+  const defaultClasses = "   p-2 rounded-lg transition duration-100";
   const combinedClasses = `${defaultClasses} ${clasName}`;
 
   return (

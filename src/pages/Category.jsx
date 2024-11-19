@@ -7,6 +7,7 @@ export default function Category() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const api = "https://dummyjson.com/products";
 
   useEffect(() => {
@@ -37,7 +38,6 @@ export default function Category() {
     const newFilteredData = data.filter((product) => {
       const productDate = new Date(product.meta.updatedAt);
       const isWithinTimeRange = (() => {
-        console.log(timeRange);
         switch (timeRange) {
           case 7:
             return (currentTime - productDate) / (1000 * 60 * 60 * 24) <= 7;
@@ -64,7 +64,6 @@ export default function Category() {
     });
 
     setFilteredData(newFilteredData);
-    console.log(newFilteredData);
   };
 
   const handleReset = () => {
@@ -72,37 +71,43 @@ export default function Category() {
   };
 
   return (
-    <>
-      <div className="grid grid-cols-12 p-6">
-        <div className=" col-span-3 ">
-          <div className=" w-5/6 shadow rounded-lg m-auto">
-            <Filter
-              products={data}
-              onApply={handleApply}
-              onReset={handleReset}
-            />
-          </div>
-        </div>
-        <div className="col-span-9 flex flex-wrap gap-3 justify-center p-6">
-          <div className="div grid grid-cols-12 gap-3">
-            {isLoading ? (
-              <p>Loading ...</p>
-            ) : filteredData.length > 0 ? (
-              filteredData.map((product) => (
-                <ProductCard product={product} key={product.id} />
-              ))
-            ) : (
-              <div className="flex flex-col items-center w-full gap-2">
-                <ExclamationCircleOutlined
-                  style={{ fontSize: "90px", color: "#ddd" }}
-                  className="mb-2"
-                />
-                <p className="font-bold">No Products Found</p>
-              </div>
-            )}
-          </div>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 justify-center">
+      <button
+        className="lg:hidden bg-blue-500 text-white p-2 rounded"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? "Close Filter" : "Open Filter"}
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`${
+          isSidebarOpen ? "block" : "hidden"
+        } lg:block col-span-12 lg:col-span-3 mb-6 lg:mb-0  p-4 shadow rounded-lg`}
+      >
+        <Filter products={data} onApply={handleApply} onReset={handleReset} />
+      </div>
+
+      {/* Product Grid */}
+      <div className="col-span-12 lg:col-span-9">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {isLoading ? (
+            <p>Loading ...</p>
+          ) : filteredData.length > 0 ? (
+            filteredData.map((product) => (
+              <ProductCard product={product} key={product.id} />
+            ))
+          ) : (
+            <div className="flex flex-col items-center w-full gap-2">
+              <ExclamationCircleOutlined
+                style={{ fontSize: "90px", color: "#ddd" }}
+                className="mb-2"
+              />
+              <p className="font-bold">No Products Found</p>
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -50,7 +50,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-white shadow-sm">
+    <div className="bg-white shadow-sm ">
       <Row align="middle" justify="space-between" className="py-2 px-4 sm:px-6">
         {/* Left - Logo */}
         <Col xs={6} sm={4} md={3} className="flex items-center">
