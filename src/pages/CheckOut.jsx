@@ -11,19 +11,19 @@ import Address from '../components/Address/Address';
 
 export default function CheckOut() {
     const { Title, Text } = Typography;
+
+    const breadcrumbItems = [
+        { title: 'Home', href: '/' },
+        { title: 'News', href: '/news' }
+    ];
+
     return (
         <>
             <Row className="p-4">
+
                 {/* Breadcrumb Section */}
                 <Col span={24}>
-                    <Breadcrumb className="m-3 p-3" separator=">">
-                        <Breadcrumb.Item href="/">
-                            <span>Home</span>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item href="/news">
-                            <span>News</span>
-                        </Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb className="m-3 p-3" items={breadcrumbItems} />
                 </Col>
 
                 {/* Main Content: Cart Items + Order Summary */}
@@ -104,7 +104,8 @@ export default function CheckOut() {
                                                 <Col span={24} className="mt-4">
                                                     <Button
                                                         size="large"
-                                                        className="w-full bg-main text-white hover:bg-slate-900 transition-colors duration-300"
+                                                        className='w-full'
+                                                        style={{ backgroundColor: '#E93D82', borderColor: '#E93D82', color: '#fff' }}
                                                     >
                                                         Checkout
                                                     </Button>
@@ -118,7 +119,6 @@ export default function CheckOut() {
                     </Row>
                 </Col>
             </Row>
-
         </>
-    )
+    );
 }

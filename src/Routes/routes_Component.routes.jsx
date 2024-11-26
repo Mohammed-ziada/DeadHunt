@@ -6,3 +6,6 @@ export { default as Cart } from '../pages/Cart'
 export { default as CheckOut } from '../pages/CheckOut'
 export { default as Category } from '../pages/Category'
 export { default as Home } from '../pages/Home'
+export { default as NotFound } from '../pages/NotFound'
+export { default as ProductPage } from '../components/ProductPage/ProductPage '
+ 

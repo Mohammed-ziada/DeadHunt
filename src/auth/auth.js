@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/v1/auth";
+const API_URL = "https://e-commerce-jasi.vercel.app/api/v1/auth";
 
 // فانكشن تسجيل الدخول
 export const login = async (email, password) => {
