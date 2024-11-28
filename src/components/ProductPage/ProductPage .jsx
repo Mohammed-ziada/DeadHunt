@@ -1,84 +1,152 @@
  
-import { Button, Radio, Tag } from "antd";
+import { Input, Button, Card, Row, Col, Image, Rate, Typography, Tag } from 'antd';
 
-const ProductPage = () => {
+const { Title, Text, Paragraph } = Typography;
+
+export default function ProductPage() {
     return (
-        <div className="max-w-screen-lg mx-auto p-4">
-            <div className="flex gap-6">
+        <div style={{ backgroundColor: '#f5f5f5', padding: '24px' }}>
+            {/* Header */}
+            <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Title level={3}>DealHunt</Title>
+                <Input.Search
+                    placeholder="What are you looking for?"
+                    style={{ width: '30%' }}
+                />
+            </div>
+
+            {/* Product Details Section */}
+            <Row gutter={24}>
                 {/* Image Section */}
-                <div className="w-1/3">
-                    <img
-                        src="https://via.placeholder.com/300"
-                        alt="Product"
-                        className="rounded-lg shadow-lg"
-                    />
-                    <div className="flex gap-2 mt-4">
-                        <img
-                            src="https://via.placeholder.com/60"
-                            alt="Thumbnail"
-                            className="rounded-lg border border-gray-300"
+                <Col xs={24} lg={12}>
+                    <Card bordered={false}>
+                        <Image
+                            src="/path/to/product-image.jpg"
+                            alt="Product"
+                            width="100%"
+                            preview={false}
                         />
-                        <img
-                            src="https://via.placeholder.com/60"
-                            alt="Thumbnail"
-                            className="rounded-lg border border-gray-300"
-                        />
-                        <img
-                            src="https://via.placeholder.com/60"
-                            alt="Thumbnail"
-                            className="rounded-lg border border-gray-300"
-                        />
-                    </div>
-                </div>
+                        <Row gutter={8} style={{ marginTop: '16px' }}>
+                            <Col span={6}>
+                                <Image
+                                    src="/path/to/image1.jpg"
+                                    alt="Thumbnail 1"
+                                    width="100%"
+                                    preview={false}
+                                />
+                            </Col>
+                            <Col span={6}>
+                                <Image
+                                    src="/path/to/image2.jpg"
+                                    alt="Thumbnail 2"
+                                    width="100%"
+                                    preview={false}
+                                />
+                            </Col>
+                            <Col span={6}>
+                                <Image
+                                    src="/path/to/image3.jpg"
+                                    alt="Thumbnail 3"
+                                    width="100%"
+                                    preview={false}
+                                />
+                            </Col>
+                            <Col span={6}>
+                                <Image
+                                    src="/path/to/image4.jpg"
+                                    alt="Thumbnail 4"
+                                    width="100%"
+                                    preview={false}
+                                />
+                            </Col>
+                        </Row>
+                    </Card>
+                </Col>
 
-                {/* Product Details Section */}
-                <div className="w-2/3">
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-bold">iPhone 15 Pro Max</h1>
-                        <Tag color="red">Only 1 left in stock</Tag>
-                    </div>
-                    <p className="text-gray-500">Natural Titanium 5G - Middle East Version</p>
-
-                    <div className="mt-4">
-                        <p className="text-xl font-semibold text-red-600">EGP 72,899.00</p>
-                        <p className="text-sm text-gray-400">Including VAT</p>
-                    </div>
-
-                    <div className="mt-6">
-                        <p className="text-sm font-semibold">Color:</p>
-                        <Radio.Group className="flex gap-4">
-                            <Radio.Button value="1">Natural Titanium</Radio.Button>
-                            <Radio.Button value="2">Blue Titanium</Radio.Button>
-                            <Radio.Button value="3">White Titanium</Radio.Button>
-                        </Radio.Group>
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-sm font-semibold">Internal Storage:</p>
-                        <Radio.Group className="flex gap-4">
-                            <Radio.Button value="512GB">512GB</Radio.Button>
-                            <Radio.Button value="1TB">1TB</Radio.Button>
-                        </Radio.Group>
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-sm font-semibold">Version:</p>
-                        <Radio.Group className="flex gap-4">
-                            <Radio.Button value="Middle East">Middle East</Radio.Button>
-                            <Radio.Button value="US">US</Radio.Button>
-                        </Radio.Group>
-                    </div>
-
-                    <div className="mt-6 flex items-center gap-4">
-                        <Button type="primary" className="bg-pink-500 hover:bg-pink-600">
+                {/* Details Section */}
+                <Col xs={24} lg={12}>
+                    <Card bordered={false}>
+                        <Title level={2}>iPhone 15 Pro Max 512GB Natural Titanium 5G</Title>
+                        <Text type="secondary">Middle East Version</Text>
+                        <Title level={3} style={{ color: '#ff4d4f', marginTop: '16px' }}>
+                            EGP 72,899.00
+                        </Title>
+                        <Tag color="green" style={{ marginBottom: '16px' }}>
+                            Only 1 left in stock
+                        </Tag>
+                        <Button type="primary" danger block>
                             Add to Cart
                         </Button>
-                        <Tag color="green">Fast Shipping</Tag>
-                    </div>
-                </div>
-            </div>
+                    </Card>
+                </Col>
+            </Row>
+
+            {/* Ratings & Reviews Section */}
+            <Card title="Ratings & Reviews" style={{ marginTop: '24px' }}>
+                <Row align="middle" gutter={16}>
+                    <Col>
+                        <Rate disabled defaultValue={4.6} />
+                    </Col>
+                    <Col>
+                        <Text strong>4.6</Text>
+                    </Col>
+                    <Col>
+                        <Text>(860 Ratings)</Text>
+                    </Col>
+                </Row>
+                <Row style={{ marginTop: '16px' }}>
+                    <Col span={24}>
+                        <Paragraph>
+                            <Text strong>Sara Dowood</Text>
+                            <br />
+                            Amazing! The iPhone 15 is simply a masterpiece...
+                        </Paragraph>
+                    </Col>
+                </Row>
+            </Card>
+
+            {/* Similar Products Section */}
+            <Card title="You May Also Like" style={{ marginTop: '24px' }}>
+                <Row gutter={16}>
+                    <Col xs={12} sm={8} lg={6}>
+                        <Card
+                            hoverable
+                            cover={
+                                <Image
+                                    src="/path/to/sneaker.jpg"
+                                    alt="Sneaker"
+                                    preview={false}
+                                />
+                            }
+                        >
+                            <Text>Nike Air Force 1</Text>
+                            <br />
+                            <Text strong style={{ color: '#ff4d4f' }}>
+                                EGP 620.00
+                            </Text>
+                        </Card>
+                    </Col>
+                    <Col xs={12} sm={8} lg={6}>
+                        <Card
+                            hoverable
+                            cover={
+                                <Image
+                                    src="/path/to/sneaker.jpg"
+                                    alt="Sneaker"
+                                    preview={false}
+                                />
+                            }
+                        >
+                            <Text>Nike Air Force 1</Text>
+                            <br />
+                            <Text strong style={{ color: '#ff4d4f' }}>
+                                EGP 620.00
+                            </Text>
+                        </Card>
+                    </Col>
+                    {/* Add more products here */}
+                </Row>
+            </Card>
         </div>
     );
-};
-
-export default ProductPage;
+}
