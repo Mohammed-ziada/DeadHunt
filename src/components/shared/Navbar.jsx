@@ -2,11 +2,7 @@ import { useState } from "react";
 import logo from "../../assets/images/Logo.svg";
 import SearchBox from "./SearchBox";
 import { Button, Col, Menu, Row, Modal, Drawer } from "antd";
-import {
-  MenuOutlined,
-  MoonOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+import { MenuOutlined, MoonOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import Registration from "./../../pages/Regestraion";
 import { Link } from "react-router-dom";
 

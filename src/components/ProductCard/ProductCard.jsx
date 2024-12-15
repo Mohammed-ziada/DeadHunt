@@ -1,43 +1,45 @@
 import { HeartOutlined } from "@ant-design/icons";
+import { ThunderboltOutlined } from "@ant-design/icons";
 import propTypes from "prop-types";
-// import products from "../../assets/images/Product.jpg";
-import CButton from "../shared/CustomButton";
 
 export default function ProductCard({ product }) {
   const { title, price, thumbnail, category } = product;
-  // console.log(product);
+
   return (
-    <>
-      <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex flex-col justify-between">
-        <div className="relative">
-          <div className="box-border border flex justify-center">
-            <img
-              src={thumbnail}
-              alt="Nike Air Force 1 Shadow sneakers"
-              className="h-60 object-cover"
-            />
-          </div>
-          <button className="absolute bottom-2 right-2 p-2 bg-white rounded-full shadow-md">
-            <HeartOutlined className="text-gray-600 text-lg" />
-          </button>
-        </div>
-        <div className="px-4 py-4 flex flex-col gap-2">
-          <div className="text-sm text-gray-500">{category}</div>
-          <h2 className="font-bold text-xl text-gray-800">{title}</h2>
-          <p className="text-3xl font-bold text-pink-500">
-            {price} <span className="text-sm font-normal">EGP</span>
+    <div className="bg-white/80 shadow-sm hover:shadow-md transition-shadow duration-300 rounded-2xl p-4 max-w-[300px] relative group">
+      {/* Image Container with pink background */}
+      <div className="relative rounded-xl overflow-hidden mb-4 ">
+        <img
+          src={thumbnail}
+          alt={title}
+          className="w-full h-[250px] object-contain rounded-xl p-2"
+        />
+        <button className="absolute bottom-3 right-3 p-2 bg-black/5 rounded-lg">
+          <HeartOutlined className="text-black text-sm" />
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="space-y-2">
+        <div className="text-sm text-gray-500">{category}</div>
+        <h2 className="font-medium text-lg text-gray-900">{title}</h2>
+        
+        <div className="flex flex-col gap-2">
+          <p className="text-2xl font-semibold text-[#FF3B3B]">
+            {price}.00 <span className="text-sm font-normal text-gray-500">EGP</span>
           </p>
-          <div className="flex items-center text-sm text-blue-600">
-            {/* <Zap className="w-4 h-4 mr-1" /> */}
-            <span className="font-medium">Fast Shipping</span>
-            <span className="ml-1 text-gray-500">Get it by 11 sep</span>
-          </div>
-          <div className="cartbtn">
-            <CButton clasName="">Add To Cart</CButton>
+
+          {/* Fast Shipping Tag */}
+          <div className="flex items-center gap-1 text-xs">
+            <div className="bg-[#E6F4FF] text-[#0091FF] px-2 py-1 rounded-md flex items-center gap-1">
+              <ThunderboltOutlined className="text-xs" />
+              <span>Fast Shipping</span>
+            </div>
+            <span className="text-gray-500">Get it by 11 sep</span>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
