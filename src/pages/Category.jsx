@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard/ProductCard";
 import Filter from "../components/FilterSidebar/Filter";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Helmet } from "react-helmet";
 
 export default function Category() {
   const [data, setData] = useState([]);
@@ -72,6 +73,9 @@ export default function Category() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 justify-center">
+      <Helmet>
+        <title>DealHunt - Category</title>
+    </Helmet>
       <button
         className="lg:hidden bg-blue-500 text-white p-2 rounded"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}

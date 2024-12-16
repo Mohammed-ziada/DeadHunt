@@ -137,12 +137,13 @@ import {
 import Address from '../components/Address/Address';
 import { useCart } from '../app/CartContext.jsx';
 import { ThunderboltOutlined } from '@ant-design/icons';
-import { TbIrregularPolyhedron } from 'react-icons/tb';
+import { Helmet } from 'react-helmet';
+// import { TbIrregularPolyhedron } from 'react-icons/tb';
 
 export default function CheckOut() {
     const { Title, Text } = Typography;
     const { cart } = useCart(); // Access cart data
-    const [shipping, setShipping] = useState(32); // Static shipping cost (can be dynamic)
+    // const [shipping, setShipping] = useState(32); // Static shipping cost (can be dynamic)
     const [subtotal, setSubtotal] = useState(0); // To store the dynamic subtotal price
 
     // Calculate subtotal dynamically based on cart contents
@@ -167,6 +168,9 @@ export default function CheckOut() {
         <>
             <Row className="p-4">
                 {/* Breadcrumb Section */}
+                <Helmet>
+                    <title>DealHunt - Checkout</title>
+                </Helmet>
                 <Col span={24}>
                     <Breadcrumb className="m-3 p-3" items={breadcrumbItems} />
                 </Col>

@@ -53,10 +53,11 @@
 // };
 // components/ProductCard/ProductCard.js
 
-import { Button } from 'antd';
+// import { Button } from 'antd';
 import { HeartOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import propTypes from 'prop-types';
 import { useCart } from '../../app/CartContext';
+import { Link } from 'react-router-dom';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
@@ -103,6 +104,9 @@ export default function ProductCard({ product }) {
           >
             Add to cart
           </button>
+          <Link to={`/product`}>
+          go to 
+          </Link>
         </div>
       </div>
     </div>

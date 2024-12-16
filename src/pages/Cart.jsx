@@ -323,7 +323,8 @@
 import { Breadcrumb, Col, Row, Typography, Input, Button, Divider } from 'antd';
 import { useCart } from '../app/CartContext';
 import CartProduct from '../components/CartProduct/CartProduct';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -349,9 +350,13 @@ export default function Cart() {
   const shipping = calculateShipping();
   const vat = calculateVAT(subtotal);
   const total = subtotal + shipping + vat;
-
+  const { fileName } = useParams();
+  console.log(fileName);
   return (
     <Row className="p-4">
+    <Helmet>
+        <title>DealHunt - Cart</title>
+    </Helmet>
       {/* Breadcrumb Section */}
       <Col span={24}>
         <Breadcrumb className="m-3 p-3" separator=">">

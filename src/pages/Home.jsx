@@ -3,6 +3,7 @@ import MainSlider from "../components/MainSlider/MainSlider";
 import ProductCard from "../components/ProductCard/ProductCard";
 import CategorySlider from "../components/CategorySlider/CategorySlider";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 const { Content } = Layout;
 
@@ -26,6 +27,9 @@ export default function Home() {
   // console.log(data[0].category);
   return (
     <Layout>
+      <Helmet>
+        <title>DealHunt - Home</title>
+    </Helmet>
       <Content className="">
         <div style={{ margin: 0, padding: 0 }}>
           <MainSlider />

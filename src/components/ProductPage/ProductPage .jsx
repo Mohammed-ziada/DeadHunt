@@ -1,11 +1,15 @@
  
 import { Input, Button, Card, Row, Col, Image, Rate, Typography, Tag } from 'antd';
+import { Helmet } from 'react-helmet';
 
 const { Title, Text, Paragraph } = Typography;
 
 export default function ProductPage() {
     return (
         <div style={{ backgroundColor: '#f5f5f5', padding: '24px' }}>
+            <Helmet >
+        <title>DealHunt - product</title>
+    </Helmet>
             {/* Header */}
             <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Title level={3}>DealHunt</Title>
