@@ -316,7 +316,6 @@
 //   );
 // }
 import {
-  Breadcrumb,
   Col,
   Row,
   Typography,
@@ -324,27 +323,29 @@ import {
   Button,
   Divider,
   Spin,
+  message,
 } from "antd";
-// import { useCart } from "../context/CartContext";
-import CartProduct from "../components/CartProduct/CartProduct";
-import { Link, useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import { useEffect } from "react";
 import { useCart } from "../app/CartContext";
+import CartProduct from "../components/CartProduct/CartProduct";
+import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const { cart, removeFromCart, updateQuantity, isLoading } = useCart();
+  const { cart, removeFromCart, updateQuantity, isLoading, applyCoupon } =
+    useCart();
   const { Title, Text } = Typography;
   const navigate = useNavigate();
+  const [couponCode, setCouponCode] = useState("");
 
   // Check if user is logged in
-  const isLoggedIn = Boolean(localStorage.getItem("token")); // Replace with your auth check logic
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login"); // Redirect to login page if not logged in
     }
-  }, [isLoggedIn, navigate]); // Dependencies ensure it runs when `isLoggedIn` or `navigate` changes
+  }, [isLoggedIn, navigate]);
 
   if (!isLoggedIn) {
     // Avoid rendering the component until navigation has occurred
@@ -362,6 +363,16 @@ export default function Cart() {
   const shipping = cart.length > 0 ? 32 : 0;
   const vat = subtotal * 0.14;
   const total = subtotal + shipping + vat;
+
+  // Handle Apply Coupon
+  const handleApplyCoupon = () => {
+    if (couponCode.trim() === "") {
+      message.warning("Please enter a valid coupon code.");
+      return;
+    }
+    applyCoupon(couponCode);
+    setCouponCode(""); // Clear input after applying
+  };
 
   return (
     <Row className="p-4">
@@ -384,8 +395,10 @@ export default function Cart() {
             <CartProduct
               key={product.id}
               product={product}
-              removeProduct={removeFromCart}
-              updateQuantity={updateQuantity}
+              removeProduct={() => removeFromCart(product.id)}
+              updateQuantity={(quantity) =>
+                updateQuantity(product.id, quantity)
+              }
             />
           ))
         ) : (
@@ -400,7 +413,16 @@ export default function Cart() {
         className="p-4 border border-gray-200 rounded-md bg-white self-start"
       >
         <Title level={4}>Order Summary</Title>
-        <Input placeholder="Coupon Code" suffix={<Button>Apply</Button>} />
+        <Input
+          placeholder="Coupon Code"
+          value={couponCode}
+          onChange={(e) => setCouponCode(e.target.value)}
+          suffix={
+            <Button onClick={handleApplyCoupon} disabled={!couponCode.trim()}>
+              Apply
+            </Button>
+          }
+        />
         <Divider />
         <Row>
           <Col span={12}>Subtotal</Col>

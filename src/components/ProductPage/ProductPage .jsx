@@ -19,11 +19,7 @@ const { Title, Text } = Typography;
 
 const ProductPage = () => {
   const { addToCart } = useCart();
-
-  const handleAddToCart = () => {
-    addToCart(product);
-  };
-  const { id } = useParams(); // Fetch product ID from URL params
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -44,6 +40,13 @@ const ProductPage = () => {
     fetchProduct();
   }, [id]);
 
+  const handleAddToCart = () => {
+    addToCart({
+      ...product,
+      price: product.price, // Ensure correct price is passed
+    });
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
 
@@ -54,7 +57,7 @@ const ProductPage = () => {
         {/* Image Section */}
         <Col span={12}>
           <img
-            src={product.imagecover} // From API: main product image
+            src={product.imagecover || "fallback-image-url"} // Fallback image
             alt={product.name}
             className="w-full rounded-lg"
           />
@@ -62,7 +65,7 @@ const ProductPage = () => {
             {product.image.map((img, idx) => (
               <Col span={4} key={idx}>
                 <img
-                  src={img} // From API: additional images
+                  src={img || "fallback-image-url"} // Fallback for additional images
                   alt={`Thumbnail ${idx}`}
                   className="w-full rounded-lg cursor-pointer"
                 />
@@ -82,8 +85,8 @@ const ProductPage = () => {
             </Badge.Ribbon>
             <Text strong>Brand: {product.category?.name || "N/A"}</Text>
             <Title level={3} style={{ color: "#e53935" }}>
-              EGP {product.priceAfterDiscount.toLocaleString()}{" "}
-              <small style={{ fontSize: "0.8em" }}>Including VAT</small>
+              {product.price || "N/A"} EGP
+              <small style={{ fontSize: "0.8em" }}> Including VAT</small>
             </Title>
             <Rate
               allowHalf
@@ -93,11 +96,12 @@ const ProductPage = () => {
             <Text type="secondary">Fast Shipping · Get it by 11 Sep</Text>
             <Divider />
             <div>
-              {console.log(product.color)}
               <Title level={5}>Color</Title>
-              {product.color.map((color, idx) => (
-                <Tag key={idx}>{color}</Tag>
-              ))}
+              {product.color?.length > 0 ? (
+                product.color.map((color, idx) => <Tag key={idx}>{color}</Tag>)
+              ) : (
+                <Text>No colors available</Text>
+              )}
             </div>
             <Button
               type="primary"
@@ -115,60 +119,7 @@ const ProductPage = () => {
       {/* Overview Section */}
       <Divider />
       <Title level={4}>Overview</Title>
-      <Text>{product.description}</Text>
-
-      {/* Ratings & Reviews Section */}
-      <Divider />
-      <Title level={4}>Ratings & Reviews</Title>
-      <Row gutter={[16, 16]} className="mt-4">
-        {product.reviews && product.reviews.length > 0 ? (
-          product.reviews.map((review, idx) => (
-            <Col span={24} key={idx}>
-              <Card>
-                <Space
-                  direction="vertical"
-                  size="small"
-                  style={{ display: "flex" }}
-                >
-                  <div className="flex justify-between items-center">
-                    <Text strong>{review.reviewerName || "Anonymous"}</Text>
-                    <Rate disabled defaultValue={review.rating || 0} />
-                  </div>
-                  <Text>{review.comment}</Text>
-                  <Text type="secondary" style={{ fontSize: "0.8em" }}>
-                    {new Date(review.date).toLocaleDateString()}
-                  </Text>
-                </Space>
-              </Card>
-            </Col>
-          ))
-        ) : (
-          <Text>No reviews available for this product.</Text>
-        )}
-      </Row>
-
-      {/* Frequently Bought Section */}
-      <Divider />
-      <Title level={4}>Frequently Bought With</Title>
-      <Row gutter={[16, 16]}>
-        {product.frequentlyBought && product.frequentlyBought.length > 0 ? (
-          product.frequentlyBought.map((item, idx) => (
-            <Col span={6} key={idx}>
-              <Card
-                cover={<img src={item.image} alt={item.name} />}
-                actions={[<Button>Add to Cart</Button>]}
-              >
-                <Card.Meta
-                  title={item.name}
-                  description={`EGP ${item.price.toLocaleString()}`}
-                />
-              </Card>
-            </Col>
-          ))
-        ) : (
-          <Text>No frequently bought products available.</Text>
-        )}
-      </Row>
+      <Text>{product.description || "No description available."}</Text>
     </div>
   );
 };

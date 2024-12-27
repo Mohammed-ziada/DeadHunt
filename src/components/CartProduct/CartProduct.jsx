@@ -146,26 +146,27 @@
 //   );
 // }
 
-import React from "react";
 import PropTypes from "prop-types"; // For prop validation
 import { Button, Col, Image, Row, Typography, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useCart } from "../../app/CartContext";
-// import { useCart } from "../../context/CartContext";
 
 export default function CartProduct({ product }) {
-  const { id, name, priceAfterDiscount, quantity, imageCover, category } =
-    product || {};
+  const {
+    id,
+    name,
+    priceAfterDiscount,
+    quantity,
+    imagecover,
+    category,
+    price,
+  } = product || {};
   const { removeFromCart, updateQuantity } = useCart();
 
+  console.log("Product data in CartProduct:", product);
+
   // Validate product properties
-  if (
-    !product ||
-    !id ||
-    !name ||
-    !priceAfterDiscount ||
-    quantity === undefined
-  ) {
+  if (!product || !id || !name || quantity === undefined) {
     return (
       <div className="p-4 border rounded-lg">
         <Typography.Text type="danger">Invalid product data</Typography.Text>
@@ -205,7 +206,7 @@ export default function CartProduct({ product }) {
         <Col xs={6}>
           <Image
             width={100}
-            src={imageCover || "https://via.placeholder.com/100"} // Fallback image
+            src={imagecover || "fallback-image-url"} // Fallback image
             alt={name || "Product"}
           />
         </Col>
@@ -238,7 +239,7 @@ export default function CartProduct({ product }) {
             </Button>
           </div>
           <Typography.Text className="block mt-2">
-            EGP {priceAfterDiscount * quantity || 0}
+            EGP {price * quantity || 0}
           </Typography.Text>
           <Button
             type="text"
@@ -261,7 +262,7 @@ CartProduct.propTypes = {
     name: PropTypes.string.isRequired,
     priceAfterDiscount: PropTypes.number.isRequired,
     quantity: PropTypes.number.isRequired,
-    imageCover: PropTypes.string,
+    imagecover: PropTypes.string, // Correct field name
     category: PropTypes.shape({
       name: PropTypes.string,
     }),

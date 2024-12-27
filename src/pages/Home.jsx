@@ -19,7 +19,7 @@ export default function Home() {
         const result = await response.json();
         const productsWithCategoryName = result.data.map((product) => ({
           ...product,
-          category: product.category.name, // Extract the category name
+          category: { name: product.category.name }, // Ensure category is an object
         }));
         setData(productsWithCategoryName);
       } catch (error) {

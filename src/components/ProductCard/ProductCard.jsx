@@ -1,7 +1,7 @@
 import { HeartOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import { useCart } from "../../app/CartContext";
 import { Link } from "react-router-dom";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Card, Col, Button } from "antd";
 
 export default function ProductCard({ product }) {
@@ -43,7 +43,7 @@ export default function ProductCard({ product }) {
                 {product.category.name}
               </div>
               <div className="text-2xl font-semibold text-[#FF3B3B]">
-                {product.priceAfterDiscount}.00{" "}
+                {product.price}.00{" "}
                 <span className="text-sm font-normal text-gray-500">EGP</span>
               </div>
               <div className="flex items-center gap-1 text-xs">
@@ -70,13 +70,13 @@ export default function ProductCard({ product }) {
 }
 
 ProductCard.propTypes = {
-  product: propTypes.shape({
-    id: propTypes.string.isRequired,
-    name: propTypes.string.isRequired,
-    imagecover: propTypes.string.isRequired,
-    category: propTypes.shape({
-      name: propTypes.string.isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    imagecover: PropTypes.string.isRequired,
+    category: PropTypes.shape({
+      name: PropTypes.string.isRequired,
     }).isRequired,
-    priceAfterDiscount: propTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
   }).isRequired,
 };

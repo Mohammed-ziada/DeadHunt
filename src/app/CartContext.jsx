@@ -1,13 +1,5 @@
 // context/CartContext.js
-import {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  useEffect,
-} from "react";
-import { message } from "antd";
-import PropTypes from "prop-types";
+import { createContext, useState, useContext, useCallback } from "react";
 
 const CartContext = createContext();
 
@@ -17,115 +9,37 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Fetch cart from API
-  const fetchCart = useCallback(async () => {
-    try {
-      const response = await fetch(
-        "https://e-commerce-api-v1-cdk5.onrender.com/api/v1/cart",
-        {
-          credentials: "include", // Ensures cookies/session are sent
-        }
-      );
-      const result = await response.json();
-      if (response.ok) {
-        setCart(result.data);
-      } else {
-        message.error(result.message || "Failed to fetch cart");
-      }
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchCart();
-  }, [fetchCart]);
 
   // Add product to cart
-  const addToCart = useCallback(
-    async (product) => {
-      try {
-        const response = await fetch(
-          "https://e-commerce-api-v1-cdk5.onrender.com/api/v1/cart",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ productId: product.id, quantity: 1 }),
-          }
-        );
-        const result = await response.json();
-        if (response.ok) {
-          fetchCart(); // Refresh cart
-          message.success("Product added to cart");
-        } else {
-          message.error(result.message || "Failed to add product to cart");
-        }
-      } catch (error) {
-        console.error("Error adding product:", error);
-      }
-    },
-    [fetchCart]
-  );
-
-  // Remove product from cart
-  const removeFromCart = useCallback(async (id) => {
-    try {
-      const response = await fetch(
-        `https://e-commerce-api-v1-cdk5.onrender.com/api/v1/cart/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
+  const addToCart = useCallback((product) => {
+    setCart((prevCart) => {
+      const existingProductIndex = prevCart.findIndex(
+        (item) => item.id === product.id
       );
-      if (response.ok) {
-        setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-        message.success("Product removed from cart");
-      } else {
-        message.error("Failed to remove product from cart");
+      if (existingProductIndex !== -1) {
+        const updatedCart = [...prevCart];
+        updatedCart[existingProductIndex].quantity += 1;
+        return updatedCart;
       }
-    } catch (error) {
-      console.error("Error removing product:", error);
-    }
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
   }, []);
 
-  // Update product quantity in cart
-  const updateQuantity = useCallback(
-    async (id, quantity) => {
-      try {
-        const response = await fetch(
-          `https://e-commerce-api-v1-cdk5.onrender.com/api/v1/cart/${id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ quantity }),
-          }
-        );
-        const result = await response.json();
-        if (response.ok) {
-          fetchCart();
-          message.success("Product quantity updated");
-        } else {
-          message.error(result.message || "Failed to update quantity");
-        }
-      } catch (error) {
-        console.error("Error updating quantity:", error);
-      }
-    },
-    [fetchCart]
-  );
-  CartProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
+  // Remove product from cart
+  const removeFromCart = useCallback((id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  }, []);
+
+  // Update quantity of product
+  const updateQuantity = useCallback((id, quantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) => (item.id === id ? { ...item, quantity } : item))
+    );
+  }, []);
 
   return (
     <CartContext.Provider
-      value={{ cart, isLoading, addToCart, removeFromCart, updateQuantity }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity }}
     >
       {children}
     </CartContext.Provider>
