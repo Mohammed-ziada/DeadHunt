@@ -1,156 +1,176 @@
- 
-import { Input, Button, Card, Row, Col, Image, Rate, Typography, Tag } from 'antd';
-import { Helmet } from 'react-helmet';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+  Row,
+  Col,
+  Button,
+  Card,
+  Rate,
+  Typography,
+  Divider,
+  Badge,
+  Tag,
+  Space,
+} from "antd";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { useCart } from "../../app/CartContext";
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
-export default function ProductPage() {
-    return (
-        <div style={{ backgroundColor: '#f5f5f5', padding: '24px' }}>
-            <Helmet >
-        <title>DealHunt - product</title>
-    </Helmet>
-            {/* Header */}
-            <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Title level={3}>DealHunt</Title>
-                <Input.Search
-                    placeholder="What are you looking for?"
-                    style={{ width: '30%' }}
+const ProductPage = () => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+  const { id } = useParams(); // Fetch product ID from URL params
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `https://e-commerce-api-v1-cdk5.onrender.com/api/v1/products/${id}`
+        );
+        const result = await response.json();
+        setProduct(result.data); // Assuming product data is in `data`
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!product) return <div>Product not found</div>;
+
+  return (
+    <div className="container mx-auto p-6 max-w-7xl">
+      {/* Product Header */}
+      <Row gutter={[16, 16]}>
+        {/* Image Section */}
+        <Col span={12}>
+          <img
+            src={product.imagecover} // From API: main product image
+            alt={product.name}
+            className="w-full rounded-lg"
+          />
+          <Row gutter={[8, 8]} className="mt-4">
+            {product.image.map((img, idx) => (
+              <Col span={4} key={idx}>
+                <img
+                  src={img} // From API: additional images
+                  alt={`Thumbnail ${idx}`}
+                  className="w-full rounded-lg cursor-pointer"
                 />
+              </Col>
+            ))}
+          </Row>
+        </Col>
+
+        {/* Product Details Section */}
+        <Col span={12}>
+          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+            <Badge.Ribbon
+              text={product.quantity > 0 ? "In Stock" : "Out of Stock"}
+              color={product.quantity > 0 ? "green" : "red"}
+            >
+              <Title level={4}>{product.name}</Title>
+            </Badge.Ribbon>
+            <Text strong>Brand: {product.category?.name || "N/A"}</Text>
+            <Title level={3} style={{ color: "#e53935" }}>
+              EGP {product.priceAfterDiscount.toLocaleString()}{" "}
+              <small style={{ fontSize: "0.8em" }}>Including VAT</small>
+            </Title>
+            <Rate
+              allowHalf
+              disabled
+              defaultValue={product.ratingsQuantity || 0}
+            />
+            <Text type="secondary">Fast Shipping · Get it by 11 Sep</Text>
+            <Divider />
+            <div>
+              {console.log(product.color)}
+              <Title level={5}>Color</Title>
+              {product.color.map((color, idx) => (
+                <Tag key={idx}>{color}</Tag>
+              ))}
             </div>
+            <Button
+              type="primary"
+              icon={<ShoppingCartOutlined />}
+              size="large"
+              disabled={product.quantity === 0}
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </Button>
+          </Space>
+        </Col>
+      </Row>
 
-            {/* Product Details Section */}
-            <Row gutter={24}>
-                {/* Image Section */}
-                <Col xs={24} lg={12}>
-                    <Card bordered={false}>
-                        <Image
-                            src="/path/to/product-image.jpg"
-                            alt="Product"
-                            width="100%"
-                            preview={false}
-                        />
-                        <Row gutter={8} style={{ marginTop: '16px' }}>
-                            <Col span={6}>
-                                <Image
-                                    src="/path/to/image1.jpg"
-                                    alt="Thumbnail 1"
-                                    width="100%"
-                                    preview={false}
-                                />
-                            </Col>
-                            <Col span={6}>
-                                <Image
-                                    src="/path/to/image2.jpg"
-                                    alt="Thumbnail 2"
-                                    width="100%"
-                                    preview={false}
-                                />
-                            </Col>
-                            <Col span={6}>
-                                <Image
-                                    src="/path/to/image3.jpg"
-                                    alt="Thumbnail 3"
-                                    width="100%"
-                                    preview={false}
-                                />
-                            </Col>
-                            <Col span={6}>
-                                <Image
-                                    src="/path/to/image4.jpg"
-                                    alt="Thumbnail 4"
-                                    width="100%"
-                                    preview={false}
-                                />
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
+      {/* Overview Section */}
+      <Divider />
+      <Title level={4}>Overview</Title>
+      <Text>{product.description}</Text>
 
-                {/* Details Section */}
-                <Col xs={24} lg={12}>
-                    <Card bordered={false}>
-                        <Title level={2}>iPhone 15 Pro Max 512GB Natural Titanium 5G</Title>
-                        <Text type="secondary">Middle East Version</Text>
-                        <Title level={3} style={{ color: '#ff4d4f', marginTop: '16px' }}>
-                            EGP 72,899.00
-                        </Title>
-                        <Tag color="green" style={{ marginBottom: '16px' }}>
-                            Only 1 left in stock
-                        </Tag>
-                        <Button type="primary" danger block>
-                            Add to Cart
-                        </Button>
-                    </Card>
-                </Col>
-            </Row>
+      {/* Ratings & Reviews Section */}
+      <Divider />
+      <Title level={4}>Ratings & Reviews</Title>
+      <Row gutter={[16, 16]} className="mt-4">
+        {product.reviews && product.reviews.length > 0 ? (
+          product.reviews.map((review, idx) => (
+            <Col span={24} key={idx}>
+              <Card>
+                <Space
+                  direction="vertical"
+                  size="small"
+                  style={{ display: "flex" }}
+                >
+                  <div className="flex justify-between items-center">
+                    <Text strong>{review.reviewerName || "Anonymous"}</Text>
+                    <Rate disabled defaultValue={review.rating || 0} />
+                  </div>
+                  <Text>{review.comment}</Text>
+                  <Text type="secondary" style={{ fontSize: "0.8em" }}>
+                    {new Date(review.date).toLocaleDateString()}
+                  </Text>
+                </Space>
+              </Card>
+            </Col>
+          ))
+        ) : (
+          <Text>No reviews available for this product.</Text>
+        )}
+      </Row>
 
-            {/* Ratings & Reviews Section */}
-            <Card title="Ratings & Reviews" style={{ marginTop: '24px' }}>
-                <Row align="middle" gutter={16}>
-                    <Col>
-                        <Rate disabled defaultValue={4.6} />
-                    </Col>
-                    <Col>
-                        <Text strong>4.6</Text>
-                    </Col>
-                    <Col>
-                        <Text>(860 Ratings)</Text>
-                    </Col>
-                </Row>
-                <Row style={{ marginTop: '16px' }}>
-                    <Col span={24}>
-                        <Paragraph>
-                            <Text strong>Sara Dowood</Text>
-                            <br />
-                            Amazing! The iPhone 15 is simply a masterpiece...
-                        </Paragraph>
-                    </Col>
-                </Row>
-            </Card>
+      {/* Frequently Bought Section */}
+      <Divider />
+      <Title level={4}>Frequently Bought With</Title>
+      <Row gutter={[16, 16]}>
+        {product.frequentlyBought && product.frequentlyBought.length > 0 ? (
+          product.frequentlyBought.map((item, idx) => (
+            <Col span={6} key={idx}>
+              <Card
+                cover={<img src={item.image} alt={item.name} />}
+                actions={[<Button>Add to Cart</Button>]}
+              >
+                <Card.Meta
+                  title={item.name}
+                  description={`EGP ${item.price.toLocaleString()}`}
+                />
+              </Card>
+            </Col>
+          ))
+        ) : (
+          <Text>No frequently bought products available.</Text>
+        )}
+      </Row>
+    </div>
+  );
+};
 
-            {/* Similar Products Section */}
-            <Card title="You May Also Like" style={{ marginTop: '24px' }}>
-                <Row gutter={16}>
-                    <Col xs={12} sm={8} lg={6}>
-                        <Card
-                            hoverable
-                            cover={
-                                <Image
-                                    src="/path/to/sneaker.jpg"
-                                    alt="Sneaker"
-                                    preview={false}
-                                />
-                            }
-                        >
-                            <Text>Nike Air Force 1</Text>
-                            <br />
-                            <Text strong style={{ color: '#ff4d4f' }}>
-                                EGP 620.00
-                            </Text>
-                        </Card>
-                    </Col>
-                    <Col xs={12} sm={8} lg={6}>
-                        <Card
-                            hoverable
-                            cover={
-                                <Image
-                                    src="/path/to/sneaker.jpg"
-                                    alt="Sneaker"
-                                    preview={false}
-                                />
-                            }
-                        >
-                            <Text>Nike Air Force 1</Text>
-                            <br />
-                            <Text strong style={{ color: '#ff4d4f' }}>
-                                EGP 620.00
-                            </Text>
-                        </Card>
-                    </Col>
-                    {/* Add more products here */}
-                </Row>
-            </Card>
-        </div>
-    );
-}
+export default ProductPage;

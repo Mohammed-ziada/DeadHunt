@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://e-commerce-jasi.vercel.app/api/v1/auth";
+const API_URL = "https://e-commerce-api-v1-cdk5.onrender.com/api/v1/auths";
 
 // فانكشن تسجيل الدخول
 export const login = async (email, password) => {
@@ -16,12 +16,22 @@ export const login = async (email, password) => {
 };
 
 // فانكشن التسجيل
-export const signup = async (email, password, name) => {
+export const signup = async (
+  name,
+  email,
+  phone,
+  password,
+  passwordConfirm,
+  role
+) => {
   try {
     const response = await axios.post(`${API_URL}/signup`, {
-      email,
-      password,
       name,
+      email,
+      phone,
+      password,
+      passwordConfirm,
+      role,
     });
     return response.data;
   } catch (error) {

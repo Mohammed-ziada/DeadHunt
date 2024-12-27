@@ -7,14 +7,14 @@
 
 //     return (
 //         <div className="p-4 m-4 border rounded-lg relative">
-//             <Row 
-//                 gutter={[16, 16]} 
-//                 align="middle" 
+//             <Row
+//                 gutter={[16, 16]}
+//                 align="middle"
 //                 className="flex-wrap"
 //             >
 //                 {/* Image Section */}
-//                 <Col 
-//                     xs={24} sm={8} md={6} lg={4} 
+//                 <Col
+//                     xs={24} sm={8} md={6} lg={4}
 //                     className="relative flex justify-center"
 //                 >
 //                     <Image
@@ -33,14 +33,14 @@
 
 //                 {/* Info Section */}
 //                 <Col xs={24} sm={16} md={18} lg={20}>
-//                     <Title 
-//                         level={3} 
+//                     <Title
+//                         level={3}
 //                         className="text-lg sm:text-xl md:text-2xl lg:text-3xl"
 //                     >
 //                         iPhone 15 Pro Max 512GB Natural Titanium 5G
 //                     </Title>
-//                     <Text 
-//                         type="secondary" 
+//                     <Text
+//                         type="secondary"
 //                         className="block text-sm sm:text-base"
 //                     >
 //                         Blue Titanium | 512GB | Middle Eastern Version
@@ -77,73 +77,193 @@
 //     );
 // }
 // components/CartProduct/CartProduct.js
-import { Button, Col, Image, Row, Tag, Typography } from 'antd';
-import { DeleteOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { useCart } from '../../app/CartContext';
+// import { Button, Col, Image, Row, Tag, Typography } from 'antd';
+// import { DeleteOutlined, ThunderboltOutlined } from '@ant-design/icons';
+// import { useCart } from '../../app/CartContext';
 
+// export default function CartProduct({ product }) {
+//   const { removeFromCart, updateQuantity } = useCart();
+//   const { id, title, price, quantity, thumbnail, category } = product;
+
+//   return (
+//     <div className="p-4 m-4 border rounded-lg relative">
+//       <Row gutter={[16, 16]} align="middle">
+//         <Col xs={24} sm={8} md={6} lg={4} className="relative flex justify-center">
+//           <Image
+//             width={120}
+//             src={thumbnail}
+//             alt={title}
+//             className="rounded-lg"
+//           />
+//           <Button
+//             className="absolute bottom-2 right-2 bg-black opacity-70 text-white hover:opacity-90"
+//             icon={<DeleteOutlined />}
+//             onClick={() => removeFromCart(id)}
+//           />
+//         </Col>
+
+//         <Col xs={24} sm={16} md={18} lg={20}>
+//           <Typography.Title level={3}>{title}</Typography.Title>
+//           <Typography.Text type="secondary">{category}</Typography.Text>
+
+//           <div className="flex flex-wrap items-center mt-2">
+//             <Tag color="#2db7f5">
+//               <ThunderboltOutlined /> Fast Shipping
+//             </Tag>
+//             <Typography.Text className="text-black">Get it by 11 Sep</Typography.Text>
+//           </div>
+
+//           <Row gutter={[16, 16]} className="py-2 items-center">
+//             <Col xs={12} sm={8} md={6} className="flex items-center">
+//               <Button
+//                 className="px-3 py-1 text-lg font-bold"
+//                 type="text"
+//                 onClick={() => updateQuantity(id, quantity - 1)}
+//                 disabled={quantity <= 1}
+//               >
+//                 -
+//               </Button>
+//               <span className="px-4 text-lg">{quantity}</span>
+//               <Button
+//                 className="px-3 py-1 text-lg font-bold"
+//                 type="text"
+//                 onClick={() => updateQuantity(id, quantity + 1)}
+//               >
+//                 +
+//               </Button>
+//             </Col>
+
+//             <Col xs={12} sm={16} md={18} className="text-right">
+//               <Typography.Text className="text-main text-xl font-bold">
+//                 <span className="p-2" type="secondary">EGP</span>
+//                 {price * quantity}.00
+//               </Typography.Text>
+//             </Col>
+//           </Row>
+//         </Col>
+//       </Row>
+//     </div>
+//   );
+// }
+
+import React from "react";
+import PropTypes from "prop-types"; // For prop validation
+import { Button, Col, Image, Row, Typography, message } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import { useCart } from "../../app/CartContext";
+// import { useCart } from "../../context/CartContext";
 
 export default function CartProduct({ product }) {
+  const { id, name, priceAfterDiscount, quantity, imageCover, category } =
+    product || {};
   const { removeFromCart, updateQuantity } = useCart();
-  const { id, title, price, quantity, thumbnail, category } = product;
+
+  // Validate product properties
+  if (
+    !product ||
+    !id ||
+    !name ||
+    !priceAfterDiscount ||
+    quantity === undefined
+  ) {
+    return (
+      <div className="p-4 border rounded-lg">
+        <Typography.Text type="danger">Invalid product data</Typography.Text>
+      </div>
+    );
+  }
+
+  // Handle quantity update
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity < 1) {
+      message.error("Quantity cannot be less than 1");
+      return;
+    }
+    if (newQuantity > 100) {
+      // Example maximum limit
+      message.error("Quantity cannot exceed 100");
+      return;
+    }
+    updateQuantity(id, newQuantity);
+  };
+
+  // Handle product removal
+  const handleRemove = () => {
+    try {
+      removeFromCart(id);
+      message.success("Product removed from cart");
+    } catch (error) {
+      console.error("Error removing product:", error);
+      message.error("Failed to remove product from cart");
+    }
+  };
 
   return (
-    <div className="p-4 m-4 border rounded-lg relative">
+    <div className="p-4 border rounded-lg">
       <Row gutter={[16, 16]} align="middle">
-        <Col xs={24} sm={8} md={6} lg={4} className="relative flex justify-center">
+        {/* Product Image */}
+        <Col xs={6}>
           <Image
-            width={120}
-            src={thumbnail}
-            alt={title}
-            className="rounded-lg"
-          />
-          <Button
-            className="absolute bottom-2 right-2 bg-black opacity-70 text-white hover:opacity-90"
-            icon={<DeleteOutlined />}
-            onClick={() => removeFromCart(id)}
+            width={100}
+            src={imageCover || "https://via.placeholder.com/100"} // Fallback image
+            alt={name || "Product"}
           />
         </Col>
 
-        <Col xs={24} sm={16} md={18} lg={20}>
-          <Typography.Title level={3}>{title}</Typography.Title>
-          <Typography.Text type="secondary">{category}</Typography.Text>
+        {/* Product Details */}
+        <Col xs={12}>
+          <Typography.Title level={5}>
+            {name || "Unknown Product"}
+          </Typography.Title>
+          <Typography.Text type="secondary">
+            {category?.name || "No Category"}
+          </Typography.Text>
+        </Col>
 
-          <div className="flex flex-wrap items-center mt-2">
-            <Tag color="#2db7f5">
-              <ThunderboltOutlined /> Fast Shipping
-            </Tag>
-            <Typography.Text className="text-black">Get it by 11 Sep</Typography.Text>
+        {/* Quantity and Price Section */}
+        <Col xs={6} className="text-right">
+          <div className="flex items-center">
+            <Button
+              onClick={() => handleQuantityChange(quantity - 1)}
+              disabled={quantity <= 1}
+            >
+              -
+            </Button>
+            <span style={{ margin: "0 10px" }}>{quantity}</span>
+            <Button
+              onClick={() => handleQuantityChange(quantity + 1)}
+              disabled={quantity >= 100} // Example max limit
+            >
+              +
+            </Button>
           </div>
-
-          <Row gutter={[16, 16]} className="py-2 items-center">
-            <Col xs={12} sm={8} md={6} className="flex items-center">
-              <Button
-                className="px-3 py-1 text-lg font-bold"
-                type="text"
-                onClick={() => updateQuantity(id, quantity - 1)}
-                disabled={quantity <= 1}
-              >
-                -
-              </Button>
-              <span className="px-4 text-lg">{quantity}</span>
-              <Button
-                className="px-3 py-1 text-lg font-bold"
-                type="text"
-                onClick={() => updateQuantity(id, quantity + 1)}
-              >
-                +
-              </Button>
-            </Col>
-
-            <Col xs={12} sm={16} md={18} className="text-right">
-              <Typography.Text className="text-main text-xl font-bold">
-                <span className="p-2" type="secondary">EGP</span>
-                {price * quantity}.00
-              </Typography.Text>
-            </Col>
-          </Row>
+          <Typography.Text className="block mt-2">
+            EGP {priceAfterDiscount * quantity || 0}
+          </Typography.Text>
+          <Button
+            type="text"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={handleRemove}
+          >
+            Remove
+          </Button>
         </Col>
       </Row>
     </div>
   );
 }
 
+// Prop Validation
+CartProduct.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    priceAfterDiscount: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+    imageCover: PropTypes.string,
+    category: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }),
+};

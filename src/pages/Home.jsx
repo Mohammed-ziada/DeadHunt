@@ -9,44 +9,48 @@ const { Content } = Layout;
 
 export default function Home() {
   const [data, setData] = useState([]);
-  const api = "https://dummyjson.com/products";
+  const api = "https://e-commerce-api-v1-cdk5.onrender.com/api/v1/products";
+  // const api2 = "https://dummyjson.com/products";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(api);
         const result = await response.json();
-        setData(result.products);
-
+        const productsWithCategoryName = result.data.map((product) => ({
+          ...product,
+          category: product.category.name, // Extract the category name
+        }));
+        setData(productsWithCategoryName);
       } catch (error) {
         console.error("Error Fetching Data", error);
       }
     };
     fetchData();
   }, []);
-  // console.log(data[0].category);
+  console.log(data);
   return (
     <Layout>
       <Helmet>
         <title>DealHunt - Home</title>
-    </Helmet>
+      </Helmet>
       <Content className="">
         <div style={{ margin: 0, padding: 0 }}>
           <MainSlider />
         </div>
-        <CategorySlider Products={data} />
+        <CategorySlider />
         <div className="mt-4">
-          <Row gutter={[16, 24]} justify="start">
+          <Row gap={"10px"} justify="start">
             {data.length > 0
               ? data.map((product) => {
                   return (
-                    <Col 
-                      key={product.id} 
-                      xs={24} 
-                      sm={12} 
-                      md={8} 
-                      lg={6} 
-                      className="flex justify-center"
+                    <Col
+                      key={product.id}
+                      xs={24}
+                      sm={12}
+                      md={8}
+                      lg={6}
+                      className="flex justify-center mb-3 gap-2 m-auto"
                     >
                       <ProductCard product={product} />
                     </Col>

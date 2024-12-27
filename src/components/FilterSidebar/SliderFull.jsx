@@ -10,7 +10,6 @@ export default function SliderFull({
 }) {
   return (
     <div>
-      {/* CSS داخل نفس الملف */}
       <style>{`
         .ant-slider-track {
           background-color: #ec4899 !important; /* لون الـ track */
