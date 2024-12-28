@@ -49,7 +49,7 @@ export default function Home() {
                       xs={24}
                       sm={12}
                       md={8}
-                      lg={6}
+                      lg={5}
                       className="flex justify-center mb-3 gap-2 m-auto"
                     >
                       <ProductCard product={product} />

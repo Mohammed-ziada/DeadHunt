@@ -16,23 +16,34 @@ export default function ProductCard({ product }) {
       <Card
         hoverable
         cover={
-          <Link to={`/product/${product.id}`}>
+          <Link to={`/product/${product.id}`} className="">
             <img
               src={product.imagecover}
               alt={product.name}
-              className="w-full h-[250px] object-contain rounded-xl p-2"
+              className="w-full h-[250px]  bg-cover rounded-xl p-2"
             />
           </Link>
         }
         actions={[
-          <Button
-            type="primary"
-            className="bg-[#FF3B3B] hover:bg-[#942121] text-white w-2/3 "
-            onClick={handleAddToCart}
+          <div
+            className="flex gap-1 align-middle"
+            style={{ padding: "10px" }}
             key={product.id}
           >
-            Add to cart
-          </Button>,
+            <Button
+              type="primary"
+              className="bg-[#FF3B3B] hover:bg-red-50 text-white w-full"
+              onClick={handleAddToCart}
+            >
+              Add to cart
+            </Button>
+            <Button
+              type="primary"
+              className="bg-[#942121] hover:bg-[#742121] text-white w-full"
+            >
+              Swap
+            </Button>
+          </div>,
         ]}
       >
         <Card.Meta
@@ -73,7 +84,7 @@ ProductCard.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    imagecover: PropTypes.string.isRequired,
+    imagecover: PropTypes.string,
     category: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,

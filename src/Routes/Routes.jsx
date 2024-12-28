@@ -15,6 +15,7 @@ import PostProduct from "../components/MarketPlace/PostMarket";
 // import Login from "../components/Auth/Login/Login";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
+import AddProductsUser from "../pages/AddProductsUser";
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const routes = createBrowserRouter([
       { path: "product", element: <ProductPage /> },
       // product page
       { path: "product/:id", element: <ProductPage /> },
+      { path: "addproduct", element: <AddProductsUser /> },
       { path: "me", element: <ProfilePage /> },
       { path: "me/myorders", element: <MyOrders /> },
       { path: "postProduct", element: <PostProduct /> },

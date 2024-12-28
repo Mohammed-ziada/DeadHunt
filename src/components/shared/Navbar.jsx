@@ -243,7 +243,9 @@ export default function Navbar() {
       <Row align="middle" justify="space-between" className="py-2 px-4 sm:px-6">
         {/* Left - Logo */}
         <Col xs={6} sm={4} md={3} className="flex items-center">
-          <img src={logo} alt="Logo" className="h-5" />
+          <Link to="/">
+            <img src={logo} alt="Logo" className="h-5" />
+          </Link>
         </Col>
 
         {/* Center - Menu Items */}

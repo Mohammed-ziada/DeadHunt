@@ -1,44 +1,59 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Upload } from "antd";
-import { useState } from "react";
+import PropTypes from "prop-types";
 
-const UploadImages = () => {
-  const [images, setImages] = useState([]);
-
+const UploadImages = ({ images, setImages }) => {
   const handleImageChange = (info) => {
+    console.log("handleImageChange called with info:", info);
     const files = info.fileList
       .map((file) => file.originFileObj)
       .filter(Boolean);
 
-    const newImages = [];
+    console.log("Files to be processed:", files);
+
     files.forEach((file) => {
       const reader = new FileReader();
 
       reader.onload = () => {
+        console.log("File read successfully:", file.name);
         // Avoid adding duplicate images by checking if they already exist in the state
         setImages((prevImages) => {
           if (!prevImages.includes(reader.result)) {
+            console.log("Adding new image to state:", reader.result);
             return [...prevImages, reader.result];
           }
+          console.log("Image already exists in state:", reader.result);
           return prevImages;
         });
       };
 
       reader.onerror = () => {
-        console.error("Failed to read the file.");
+        console.error("Failed to read the file:", file.name);
       };
 
       reader.readAsDataURL(file);
-      console.log(images);
     });
+
+    // Clear fileList to avoid reprocessing old files
+    info.fileList = [];
+    console.log("Cleared fileList:", info.fileList);
+    console.log("Current images state:", images);
   };
 
   const handleDeleteImage = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    console.log("handleDeleteImage called with index:", index);
+    setImages((prevImages) => {
+      const newImages = [...prevImages]; // Create a shallow copy
+      newImages.splice(index, 1); // Remove the item at the specified index
+      console.log("Updated images state after deletion:", newImages);
+      return newImages; // Update the state with the modified array
+    });
   };
 
   const handleDeleteAll = () => {
+    console.log("handleDeleteAll called");
     setImages([]); // Clear all images
+    console.log("All images deleted, current state:", images);
   };
 
   return (
@@ -101,6 +116,10 @@ const UploadImages = () => {
       </Row>
     </div>
   );
+};
+UploadImages.propTypes = {
+  images: PropTypes.array.isRequired,
+  setImages: PropTypes.func.isRequired,
 };
 
 export default UploadImages;
